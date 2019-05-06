@@ -5,6 +5,9 @@ import com.voldy.myblog.repository.UserRepository;
 import com.voldy.myblog.service.impl.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +22,7 @@ import java.util.List;
  * @since 2019/5/5
  **/
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Resource
     private UserRepository userRepository;
@@ -53,10 +56,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    /**
+     * 模糊查询
+     * @param nickname
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<User> listUsersByNicknameLike(String nickname, Pageable pageable) {
         nickname = "%" + nickname + "%";
         return userRepository.findByNicknameLike(nickname, pageable);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserDetails user = userRepository.findByUsername(username);
+        //解决remember me 空指针异常
+        if(user == null){
+            throw new UsernameNotFoundException("Username not exist");
+        }
+        return user;
     }
 
 }

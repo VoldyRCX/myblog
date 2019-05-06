@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * @since 2019/5/4
  **/
 @Entity
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 1L;
 

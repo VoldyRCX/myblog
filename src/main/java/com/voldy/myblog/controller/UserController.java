@@ -65,8 +65,6 @@ public class UserController {
         return mav;
     }
 
-
-
     /**
      * 删除用户信息
      * @param id

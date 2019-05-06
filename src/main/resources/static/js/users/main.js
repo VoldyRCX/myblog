@@ -107,7 +107,7 @@ $(function() {
              },
 			 success: function(data){
 				 if (data.success) {
-					 // 从新刷新主界面
+					 // 重刷新主界面
 					 getUersByName(0, _pageSize);
 				 } else {
 					 toastr.error(data.message);

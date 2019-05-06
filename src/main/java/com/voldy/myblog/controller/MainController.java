@@ -5,6 +5,7 @@ import com.voldy.myblog.domain.Authority;
 import com.voldy.myblog.domain.User;
 import com.voldy.myblog.service.impl.AuthorityService;
 import com.voldy.myblog.service.impl.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,7 @@ public class MainController {
     public ModelAndView loginError(){
         ModelAndView mav = new ModelAndView("/login");
         mav.addObject("loginError", true);
+        mav.addObject("errorMsg", "登陆失败，账号或者密码错误！");
         return mav;
     }
 
@@ -64,8 +66,14 @@ public class MainController {
     @PostMapping("/register")
     public String register(User user){
         List<Authority> authorities = new ArrayList<>();
+        //设置权限
         authorities.add(authorityService.getAuthorityById(ROLE_USER_AUTHORITY_ID));
         user.setAuthorities(authorities);
+        //加密
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword().trim());
+        user.setPassword(encodedPassword);
+        //注册
         userService.registerUser(user);
         return "redirect:/login";
     }

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-        data-th-fragment="header">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      data-th-fragment="header">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,11 +73,31 @@
                 </form>
 
             </ul>
+            <div sec:authorize="isAuthenticated()" class="row">
+                <div class="dropdown">
+                    <a class=" dropdown-toggle" href="/u/minato" th:href="@{/}"
+                       data-toggle="dropdown"><span sec:authentication="name"></span></a>
+                    <div class="dropdown-menu">
+                        <a class=" dropdown-item" href="/u/minato" th:href="@{/}">个人主页</a>
+                        <a class="dropdown-item" href="/u/minato/profile"
+                           th:href="@{/}">个人设置</a>
+                    </div>
+                </div>
+                <div>
+                    <a href="/u/minato/blogs/edit" th:href="@{/}"
+                       class="btn btn-outline-success my-2 my-sm-0">写博客</a>
+                </div>
+                <form action="/logout" th:action="@{/logout}" method="post">
+                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="退出">
+                </form>
+            </div>
 
+            <div sec:authorize="isAnonymous()">
             <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
             <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
-        </div>
+            </div>
 
+        </div>
     </div>
 </nav>
 

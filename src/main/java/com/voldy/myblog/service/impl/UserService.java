@@ -3,6 +3,7 @@ package com.voldy.myblog.service.impl;
 import com.voldy.myblog.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @version 0.0.1
  * @since 2019/5/5
  **/
-public interface UserService {
+public interface UserService extends UserDetailsService {
     /**
      * 更新用户
      * @param user
