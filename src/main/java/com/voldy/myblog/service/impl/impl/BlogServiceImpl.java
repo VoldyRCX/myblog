@@ -2,6 +2,7 @@ package com.voldy.myblog.service.impl.impl;
 
 import com.voldy.myblog.domain.Blog;
 import com.voldy.myblog.domain.Comment;
+import com.voldy.myblog.domain.Vote;
 import com.voldy.myblog.domain.User;
 import com.voldy.myblog.repository.BlogRepository;
 import com.voldy.myblog.service.impl.BlogService;
@@ -98,11 +99,27 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog createVote(Long blogId) {
-        return null;
+        Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Vote vote = new Vote(user);
+        boolean isExist = false;
+        if(null != originalBlog){
+            isExist = originalBlog.addvote(vote);
+        }
+        if (isExist) {
+            throw new IllegalArgumentException("该用户已经点过赞了");
+        }
+        return blogRepository.save(originalBlog);
     }
 
     @Override
     public void removeVote(Long blogId, Long voteId) {
-
+        Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+        if(null != originalBlog){
+            originalBlog.removeVote(voteId);
+        }
+        blogRepository.save(originalBlog);
     }
+
+
 }

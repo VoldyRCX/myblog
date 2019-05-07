@@ -34,7 +34,7 @@
            th:text="${blog.user.username}">minato</a> 发表于 [[${#dates.format(blog.createTime,
         'yyyy-MM-dd HH:mm')}]]
         <i class="fa fa-eye" aria-hidden="true" >[[${blog.readings}]]</i>
-        <i class="fa fa-heart-o" aria-hidden="true">[[${blog.likes}]]</i>
+        <i class="fa fa-heart-o" aria-hidden="true">[[${blog.votes}]]</i>
         <i class="fa fa-comment-o" aria-hidden="true">[[${blog.comments}]]</i>
         <a href="/u/minato" th:if="${isBlogOwner}"
            th:href="'/u/' + ${blog.user.username}+ '/blog/edit/'+ ${blog.id}"
@@ -89,14 +89,14 @@
                 <div class="row" id="mainContainerRepleace" th:each="comment,commentStat : ${commentList}" th:object="${comment}">
                     <h2 class="card-title col-lg-1 col-md-2">
 							<span>
-			                  <a href="/u/waylau" th:href="'/u/'+ *{user.username}" title="waylau" th:title="*{user.username}">
+			                  <a href="/u/renqiang" th:href="'/u/'+ *{user.username}" title="waylau" th:title="*{user.username}">
 			                    <img src="../../static/images/icon-default.jpg" th:src="*{user.icon} == null ? '/images/icon-default.jpg' : *{user.icon}" class="blog-avatar-50">
 			                  </a>
 					        </span>
                     </h2>
                     <div class="card-text col-lg-11 col-md-10">
-                        <a href="/u/waylau" th:href="'/u/'+ *{user.username}" class="card-link" th:text="*{user.username}">waylau</a> [[${commentStat.index} + 1]]楼  [[${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}]]
-                        <a href="javascript:void(0)" class="blog-delete-comment" th:if="${commentOwner} eq *{user.username}" th:attr="commentId=*{id}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        <a href="/u/renqiang" th:href="'/u/'+ *{user.username}" class="card-link" th:text="*{user.username}">waylau</a> [[${commentStat.index} + 1]]楼  [[${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}]]
+                        <a href="#" class="blog-delete-comment" th:if="${commentOwner} eq *{user.username}" th:attr="commentId=*{id}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                         <p th:text="*{content}">不错哦，顶起！</p>
                     </div>
                 </div>

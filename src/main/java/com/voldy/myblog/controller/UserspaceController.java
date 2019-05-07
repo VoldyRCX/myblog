@@ -1,6 +1,7 @@
 package com.voldy.myblog.controller;
 
 import com.voldy.myblog.domain.Blog;
+import com.voldy.myblog.domain.Vote;
 import com.voldy.myblog.domain.User;
 import com.voldy.myblog.service.impl.BlogService;
 import com.voldy.myblog.service.impl.UserService;
@@ -127,7 +128,7 @@ public class UserspaceController {
         if(category != null && category > 0){ //分类查询
 
         }else if(order.equals("hot")){ //最热查询
-            Sort sort = new Sort(Sort.Direction.DESC, "readings", "comments", "likes");
+            Sort sort = new Sort(Sort.Direction.DESC, "readings", "comments", "votes");
             Pageable pageable = new PageRequest(pageIndex, pageSize, sort);
             page = blogService.listBlogsByTitleLikeAndSort(user, keyword, pageable);
         }else if(order.equals("new")){ //最新查询
@@ -183,22 +184,24 @@ public class UserspaceController {
             }
         }
 
-        ModelAndView mav = new ModelAndView("userspace/blog");
+        // 判断操作用户的点赞情况
+        List<Vote> votes = blog.getVoteList();
+        Vote currentVote = null; // 当前用户的点赞情况
 
-        mav.addObject("isBlogOwner", isBlogOwner);
-        mav.addObject("blog", blog);
-
-       /* List<Vote> votes = blog.getVotes();
-        Vote currentVote = null;
-
-        if (principal != null) {
+        if (principal !=null) {
             for (Vote vote : votes) {
                 vote.getUser().getUsername().equals(principal.getUsername());
                 currentVote = vote;
                 break;
             }
         }
-        */
+
+        ModelAndView mav = new ModelAndView("userspace/blog");
+
+        mav.addObject("isBlogOwner", isBlogOwner);
+        mav.addObject("blog", blog);
+        mav.addObject("currentVote", currentVote);
+
 
         return mav;
     }

@@ -1,8 +1,5 @@
 package com.voldy.myblog.domain;
 
-import com.github.rjeschke.txtmark.Processor;
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -64,8 +61,8 @@ public class Blog implements Serializable {
     @Column(name="comments")
     private Integer comments = 0; // 评论量
 
-    @Column(name="likes")
-    private Integer likes = 0; // 点赞量
+    @Column(name="votes")
+    private Integer votes = 0; // 点赞量
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -73,21 +70,19 @@ public class Blog implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "id"))
     private List<Comment> commentList;
 
-/*
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "blog_vote", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "vote_id", referencedColumnName = "id"))
-    private List<Vote> votes;
+    private List<Vote> voteList;
 
-    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+ /*   @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name="catalog_id")
     private Catalog catalog;
 
     @Column(name = "tags", length = 100)
     private String tags;
 */
-
     protected Blog() {
     }
 
@@ -95,6 +90,23 @@ public class Blog implements Serializable {
         this.title = title;
         this.summary = summary;
         this.content = content;
+    }
+
+    public List<Vote> getVoteList() {
+        return voteList;
+    }
+
+    public void setVoteList(List<Vote> voteList) {
+        this.voteList = voteList;
+        this.votes = this.voteList.size();
+    }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 
     public Long getId() {
@@ -176,13 +188,6 @@ public class Blog implements Serializable {
         this.comments = comments;
     }
 
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
 
     public List<Comment> getCommentList() {
         return commentList;
@@ -200,6 +205,7 @@ public class Blog implements Serializable {
         this.commentList.add(comment);
         this.comments = this.commentList.size();
     }
+
     /**
      * 删除评论
      * @param commentId
@@ -214,6 +220,42 @@ public class Blog implements Serializable {
         this.comments = this.commentList.size();
     }
 
+    /**
+     * 点赞
+     * @param vote
+     * @return
+     */
+    public boolean addvote(Vote vote) {
+        boolean isExist = false;
+        // 判断重复
+        for (int index = 0; index < this.voteList.size(); index ++ ) {
+            if (this.voteList.get(index).getUser().getId() == vote.getUser().getId()) {
+                isExist = true;
+                break;
+            }
+        }
+
+        if (!isExist) {
+            this.voteList.add(vote);
+            this.votes = this.voteList.size();
+        }
+
+        return isExist;
+    }
+    /**
+     * 取消点赞
+     * @param voteId
+     */
+    public void removeVote(Long voteId) {
+        for (int index = 0; index < this.voteList.size(); index ++ ) {
+            if (this.voteList.get(index).getId() == voteId) {
+                this.voteList.remove(index);
+                break;
+            }
+        }
+
+        this.votes = this.voteList.size();
+    }
 
 }
 

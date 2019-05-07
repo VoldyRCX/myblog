@@ -88,5 +88,5 @@ public interface BlogService {
      */
     Blog createVote(Long blogId);
 
-    void removeVote(Long blogId, Long voteId);
+    void removeVote(Long blogId, Long likeId);
 }
