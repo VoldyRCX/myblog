@@ -49,7 +49,7 @@ $(function () {
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
         $.ajax({
-            url: '/u/' + $(this).attr("userName") + '/blogs/edit',
+            url: '/u/' + $(this).attr("userName") + '/blog/edit',
             type: 'POST',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({

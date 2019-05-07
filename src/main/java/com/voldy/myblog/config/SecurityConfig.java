@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**", "/index" ).permitAll()
+                .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**", "/index","/comments/**" ).permitAll()
                 .antMatchers("/error/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN") // 需要相应的角色才能访问
 
@@ -65,8 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe().key(KEY) // 启用 remember me
                 .and().exceptionHandling().accessDeniedPage("/403");  // 处理异常，拒绝访问就重定向到 403 页面
         //跨站访问防护设置
-        //httpSecurity.csrf().ignoringAntMatchers("/*/avatar/**", "/u/*/blogs/edit/**", "/u/*/blogs/**");
-        //httpSecurity.headers().frameOptions().sameOrigin();
+        httpSecurity.csrf().ignoringAntMatchers("/*/avatar/**", "/u/*/blogs/edit/**", "/u/*/blogs/**");
+        httpSecurity.headers().frameOptions().sameOrigin();
     }
 
     /**

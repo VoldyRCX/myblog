@@ -140,7 +140,7 @@ public class UserspaceController {
         }
 
 
-        ModelAndView mav = new ModelAndView(async ? "index :: #mainContainerReplace" : "index");
+        ModelAndView mav = new ModelAndView(async ? "userspace/u :: #mainContainerReplace" : "userspace/u");
         //TODO BlogVO
         mav.addObject("user", user);
         mav.addObject("order", order);
@@ -162,9 +162,13 @@ public class UserspaceController {
     @GetMapping("/{username}/blog/{id}")
     public ModelAndView getBlogById(@PathVariable("username") String username, @PathVariable("id") Long id) {
         System.out.println(id);
+//        User user = (User) userDetailsService.loadUserByUsername(username);
         User principal = null;
         Blog blog = blogService.getBlogById(id);
         System.out.println(blog);
+        //blog.set(blog.getContent().replace("\n","<br>"));
+        /*blog.setUser(userService.getUserById(user.getId()));*/
+        //TODO ???
 
         //每次阅读 阅读量加1
         blogService.readingIncrease(id);
@@ -249,6 +253,7 @@ public class UserspaceController {
                 Blog originalBlog = blogService.getBlogById(blog.getId());
                 originalBlog.setTitle(blog.getTitle());
                 originalBlog.setContent(blog.getContent());
+                originalBlog.setHtmlContent(blog.getHtmlContent());
                 originalBlog.setSummary(blog.getSummary());
                 /*originalBlog.setCatalog(blog.getCatalog());
                 originalBlog.setTags(blog.getTags());*/

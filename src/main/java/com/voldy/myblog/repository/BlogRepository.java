@@ -5,6 +5,7 @@ import com.voldy.myblog.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * TODO
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 0.0.1
  * @since 2019/5/7
  **/
+@Repository
 public interface BlogRepository extends JpaRepository<Blog,Long> {
 
     /**

@@ -1,11 +1,14 @@
 package com.voldy.myblog.service.impl.impl;
 
 import com.voldy.myblog.domain.Blog;
+import com.voldy.myblog.domain.Comment;
 import com.voldy.myblog.domain.User;
 import com.voldy.myblog.repository.BlogRepository;
 import com.voldy.myblog.service.impl.BlogService;
+import com.voldy.myblog.service.impl.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +23,9 @@ import javax.transaction.Transactional;
  **/
 @Service
 public class BlogServiceImpl implements BlogService {
+
+    @Resource
+    private UserService userService;
 
     @Resource
     private BlogRepository blogRepository;
@@ -44,7 +50,8 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog getBlogById(Long id) {
-        return blogRepository.getOne(id);
+        Blog blog = blogRepository.findById(id).orElse(null);
+        return blog;
     }
 
     @Override
@@ -70,12 +77,23 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog createComment(Long blogId, String commentContent) {
-        return null;
+        Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Comment comment = new Comment(user, commentContent);
+        if(originalBlog != null){
+            originalBlog.addComment(comment);
+        }
+        return blogRepository.save(originalBlog);
     }
 
     @Override
     public void removeComment(Long blogId, Long commentId) {
+        Blog originalBlog = blogRepository.findById(blogId).orElse(null);
+        if(originalBlog != null){
+            originalBlog.removeComment(commentId);
+        }
 
+        blogRepository.save(originalBlog);
     }
 
     @Override
