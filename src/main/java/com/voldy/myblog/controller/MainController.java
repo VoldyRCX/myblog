@@ -70,9 +70,7 @@ public class MainController {
         authorities.add(authorityService.getAuthorityById(ROLE_USER_AUTHORITY_ID));
         user.setAuthorities(authorities);
         //加密
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword().trim());
-        user.setPassword(encodedPassword);
+        user.setEncodePassword(user.getPassword());
         //注册
         userService.registerUser(user);
         return "redirect:/login";
