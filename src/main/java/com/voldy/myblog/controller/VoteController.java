@@ -62,7 +62,7 @@ public class VoteController {
      * @return
      */
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")  // 指定角色权限才能操作方法
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")  // 指定角色权限才能操作方法
     public ResponseEntity<ResponseVO> delete(@PathVariable("id") Long id, Long blogId) {
 
         boolean isOwner = false;
@@ -70,14 +70,7 @@ public class VoteController {
 
         // 判断操作用户是否是点赞的所有者
         isOwner = ownerJudge.isOwner(user);
-        /*if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-                &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
-            User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal !=null && user.getUsername().equals(principal.getUsername())) {
-                isOwner = true;
-            }
-        }
-*/
+
         if (!isOwner) {
             return ResponseEntity.ok().body(new ResponseVO(false, "没有操作权限"));
         }

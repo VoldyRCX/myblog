@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -64,7 +63,7 @@ public class UserspaceController {
     @GetMapping("/{username}")
     public ModelAndView userSpace(@PathVariable("username") String username) {
         User user = (User) userDetailsService.loadUserByUsername(username);
-        ModelAndView mav = new ModelAndView("redirect:/u/" + username + "/blog");
+        ModelAndView mav = new ModelAndView("redirect:/u/" + username + "/blogs");
         mav.addObject("user", user);
         return mav;
     }
@@ -121,11 +120,11 @@ public class UserspaceController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/{username}/blog")
+    @GetMapping("/{username}/blogs")
     public ModelAndView listBlogsByOrder(@PathVariable("username") String username,
                                    @RequestParam(value="order",required=false,defaultValue="new") String order,
                                    @RequestParam(value="catalog",required=false ) Long catalogId,
-                                   @RequestParam(value="keyword",required=false ) String keyword,
+                                   @RequestParam(value="keyword",required=false,defaultValue="") String keyword,
                                    @RequestParam(value = "async",required = false) boolean async,
                                    @RequestParam(value = "pageIndex", required = false, defaultValue = "0") int pageIndex,
                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize
@@ -173,7 +172,7 @@ public class UserspaceController {
      * @param id
      * @return
      */
-    @GetMapping("/{username}/blog/{id}")
+    @GetMapping("/{username}/blogs/{id}")
     public ModelAndView getBlogById(@PathVariable("username") String username, @PathVariable("id") Long id) {
         System.out.println(id);
 //        User user = (User) userDetailsService.loadUserByUsername(username);
@@ -220,7 +219,7 @@ public class UserspaceController {
      * @param username
      * @return
      */
-    @GetMapping("/{username}/blog/edit")
+    @GetMapping("/{username}/blogs/edit")
     public ModelAndView createBlog(@PathVariable("username") String username) {
         User user = (User) userService.loadUserByUsername(username);
         List<Catalog> catalogs = catalogService.listCatalogs(user);
@@ -237,7 +236,7 @@ public class UserspaceController {
      * @param id
      * @return
      */
-    @GetMapping("/{username}/blog/edit/{id}")
+    @GetMapping("/{username}/blogs/edit/{id}")
     public ModelAndView editBlog(@PathVariable("username") String username, @PathVariable("id") Long id) {
         User user = (User) userService.loadUserByUsername(username);
         List<Catalog> catalogs = catalogService.listCatalogs(user);
@@ -257,7 +256,7 @@ public class UserspaceController {
      * @param blog
      * @return
      */
-    @PostMapping("/{username}/blog/edit")
+    @PostMapping("/{username}/blogs/edit")
     @PreAuthorize("authentication.name.equals(#username)")
     public ResponseEntity<ResponseVO> saveBlog(@PathVariable("username") String username, @RequestBody Blog blog) {
         if (blog.getCatalog().getId() == null) {//必须创建分类
@@ -271,7 +270,7 @@ public class UserspaceController {
                 originalBlog.setHtmlContent(blog.getHtmlContent());
                 originalBlog.setSummary(blog.getSummary());
                 originalBlog.setCatalog(blog.getCatalog());
-                //originalBlog.setTags(blog.getTags());
+                originalBlog.setTags(blog.getTags());
                 blogService.saveBlog(originalBlog);
             } else {//新增
                 User user = (User) userService.loadUserByUsername(username);
@@ -285,7 +284,7 @@ public class UserspaceController {
             return ResponseEntity.ok().body(new ResponseVO(false, e.getMessage()));
         }
 
-        String redirectUrl = "/u/" + username + "/blog/" + blog.getId();
+        String redirectUrl = "/u/" + username + "/blogs/" + blog.getId();
         return ResponseEntity.ok().body(new ResponseVO(true, "处理成功", redirectUrl));
     }
 
@@ -295,7 +294,7 @@ public class UserspaceController {
      * @param id
      * @return
      */
-    @DeleteMapping("/{username}/blog/{id}") //delete方法
+    @DeleteMapping("/{username}/blogs/{id}") //delete方法
     @PreAuthorize("authentication.name.equals(#username)")
     public ResponseEntity<ResponseVO> deleteBlog(@PathVariable("username") String username, @PathVariable("id") Long id) {
 
@@ -305,7 +304,7 @@ public class UserspaceController {
             return ResponseEntity.ok().body(new ResponseVO(false, e.getMessage()));
         }
 
-        String redirectUrl = "/u/" + username + "/blog";
+        String redirectUrl = "/u/" + username + "/blogs";
         return ResponseEntity.ok().body(new ResponseVO(true, "处理成功", redirectUrl));
     }
 

@@ -51,15 +51,8 @@ public class CommentController {
         List<Comment> commentList = blog.getCommentList();
 
         // 判断操作用户是否是评论的所有者
-        /*String commentOwner = "";*/
         String commentOwner = ownerJudge.getOwnerUsername();
-       /* if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-                &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
-            User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal !=null) {
-                commentOwner = principal.getUsername();
-            }
-        }*/
+
 
         ModelAndView mav = new ModelAndView("/userspace/blog :: #mainContainerRepleace");
         mav.addObject("commentOwner", commentOwner);
@@ -101,13 +94,8 @@ public class CommentController {
         User user = commentService.getCommentById(id).getUser();
 
         // 判断操作用户是否是博客的所有者
-        if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-                &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
-            User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal !=null && user.getUsername().equals(principal.getUsername())) {
-                isOwner = true;
-            }
-        }
+        isOwner = ownerJudge.isOwner(user);
+
 
         if (!isOwner) {
             return ResponseEntity.ok().body(new ResponseVO(false, "没有操作权限"));

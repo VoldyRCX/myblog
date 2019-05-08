@@ -103,7 +103,7 @@ public class CatalogController {
     }
 
     /**
-     * 分类编辑页面
+     * 获取分类编辑页面
      * @return
      */
     @GetMapping("/edit")

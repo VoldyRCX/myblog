@@ -33,7 +33,7 @@ public class AdminController {
         List<MenuVO> list = new ArrayList<>();
         list.add(new MenuVO("用户管理", "/users"));
         list.add(new MenuVO("角色管理", "/roles"));
-        list.add(new MenuVO("博客管理", "/blog"));
+        list.add(new MenuVO("博客管理", "/blogs"));
         list.add(new MenuVO("评论管理", "/commits"));
         AdminDTO adminDTO = new AdminDTO(list);
         ModelAndView mav = new ModelAndView("admins/index");

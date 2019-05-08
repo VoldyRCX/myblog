@@ -55,7 +55,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="/" th:href="@{/}">NewStarBlog</a>
+        <a class="navbar-brand" href="/" th:href="@{/}">MyBlog</a>
 
         <div class="collapse navbar-collapse" id="navbarsContainer">
 
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="" th:href="@{'/u/' + ${#authentication.name} + '/blog/edit'}"
+                    <a href="" th:href="@{'/u/' + ${#authentication.name} + '/blogs/edit'}"
                        class="btn btn-outline-success my-2 my-sm-0">写博客</a>
                 </div>
                 <form action="/logout" th:action="@{/logout}" method="post">

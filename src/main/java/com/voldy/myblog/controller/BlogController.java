@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 2019/5/5
  **/
 @Controller
-@RequestMapping("/blog")
+@RequestMapping("/blogs")
 public class BlogController {
     @GetMapping
     public String listBlogs(@RequestParam(value="order",required=false,defaultValue="new") String order,

@@ -64,6 +64,8 @@ public class Blog implements Serializable {
     @Column(name="votes")
     private Integer votes = 0; // 点赞量
 
+    @Column(name="tags", length = 100)
+    private String tags; //多个标签，用逗号隔开 "a,b,c"
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "blog_comment", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
@@ -142,6 +144,14 @@ public class Blog implements Serializable {
 //		this.htmlContent = StringEscapeUtils.escapeHtml4(Processor.process(content)); //讲md转为html
         /*this.htmlContent = Processor.process(content);*/
 
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public User getUser() {

@@ -40,11 +40,19 @@ public class MainController {
         return "index";
     }
 
+    /**
+     * 获取登陆页面
+     * @return
+     */
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+    /**
+     * 获取登陆失败信息
+     * @return
+     */
     @GetMapping("login-error")
     public ModelAndView loginError(){
         ModelAndView mav = new ModelAndView("/login");
@@ -53,13 +61,18 @@ public class MainController {
         return mav;
     }
 
+    /**
+     * 获取注册页面
+     * @return
+     */
     @GetMapping("/register")
     public String register() {
         return "register";
     }
 
     /**
-     * 注册用户
+     * 注册用户POST接口
+     * TODO 注册成功后自动创建默认分类
      * @param user
      * @return
      */
@@ -73,6 +86,7 @@ public class MainController {
         user.setEncodePassword(user.getPassword());
         //注册
         userService.registerUser(user);
+        //TODO 成功注册后直接登陆
         return "redirect:/login";
     }
 }

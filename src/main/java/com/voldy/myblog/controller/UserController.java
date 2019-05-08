@@ -32,7 +32,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/users")
-//@PreAuthorize("hasAuthority('ROLE_ADMIN')")  // 指定角色权限才能操作方法
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")  // 指定角色权限才能操作方法
 public class UserController {
 
     @Resource
@@ -93,7 +93,7 @@ public class UserController {
                              @RequestParam(value="name",required=false,defaultValue="") String name
                             ) {
 
-        Pageable pageable = new PageRequest(pageIndex, pageSize);
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
         Page<User> page = userService.listUsersByNicknameLike(name, pageable);
         List<User> list = page.getContent();	// 当前所在页面数据列表
         ModelAndView mav = new ModelAndView(async ? "users/list :: #mainContainerRepleace" : "users/list");
@@ -119,7 +119,7 @@ public class UserController {
 
 
     /**
-     * 获取新建用户form表单
+     * 获取新建用户表单
      * @return
      */
     @GetMapping("/add")
@@ -138,7 +138,6 @@ public class UserController {
     public ModelAndView edit(@PathVariable("id") Long id){
         ModelAndView mav = new ModelAndView("users/edit");
         User user = userService.getUserById(id);
-        //Long authId = authorityService.getAuthorityById(id).getId();
         mav.addObject("user", user);
         return mav;
     }

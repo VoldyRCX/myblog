@@ -23,8 +23,8 @@
                                      class="blog-avatar-50">
 			                  </a>
 					        </span>
-        <a href="/u/minato/blogs/1" class="card-link" title="minato"
-           th:href="'/u/' + ${blog.user.username} + '/blog/'+ ${blog.id}"
+        <a href="#" class="card-link" title="minato"
+           th:href="'/u/' + ${blog.user.username} + '/blogs/'+ ${blog.id}"
            th:title="${blog.user.username}" th:text="${blog.title}">
         </a>
     </h2>
@@ -37,7 +37,7 @@
         <i class="fa fa-heart-o" aria-hidden="true">[[${blog.votes}]]</i>
         <i class="fa fa-comment-o" aria-hidden="true">[[${blog.comments}]]</i>
         <a href="/u/minato" th:if="${isBlogOwner}"
-           th:href="'/u/' + ${blog.user.username}+ '/blog/edit/'+ ${blog.id}"
+           th:href="'/u/' + ${blog.user.username}+ '/blogs/edit/'+ ${blog.id}"
            class="btn btn-primary float-right">编辑</a>
         <a href="#" th:if="${isBlogOwner}"
            class="btn btn-primary float-right blog-delete-blog">删除</a>
@@ -60,13 +60,9 @@
                 </a></h5>
 
                 <h5>标签：
-                    <a href="/u/waylau/blogs?keyword=分布式"> <span class="badge badge-default">Web Design</span></a>
-                    <a href="/u/waylau/blogs?keyword=分布式"> <span class="badge badge-default">Jersey</span></a>
-                    <a href="/u/waylau/blogs?keyword=分布式"> <span class="badge badge-default">JavaScript</span></a>
-                    <a href="/u/waylau/blogs?keyword=分布式"> <span class="badge badge-default">CSS</span></a>
-                    <a href="/u/waylau/blogs?keyword=分布式"> <span class="badge badge-default">Java</span></a>
-                    <a href="/u/waylau/blogs?keyword=分布式"> <span class="badge badge-default">Freebies</span></a>
-
+                    <a th:each="tag : ${#strings.arraySplit(blog.tags , ',')}"
+                       th:href="'/u/' + ${blog.user.username}  + '/blogs?keyword='+ ${tag}"> <span
+                            class="badge badge-default" th:text="${tag}">Web Design</span></a>
                 </h5>
             </div>
 
@@ -162,7 +158,7 @@
 <div th:replace="~{fragments/footer :: footer}">...</div>
 <script th:inline="javascript">
     var blogId = [[${blog.id}]];
-    var blogUrl = '/u/' + [[${blog.user.username}]] + '/blog/' + [[${blog.id}]];
+    var blogUrl = '/u/' + [[${blog.user.username}]] + '/blogs/' + [[${blog.id}]];
 </script>
 <script th:src="@{/js/userspace/blog.js}"></script>
 <script th:src="@{/editormd/lib/marked.min.js}"></script>
