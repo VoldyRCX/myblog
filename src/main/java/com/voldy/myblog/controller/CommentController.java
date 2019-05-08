@@ -6,6 +6,7 @@ import com.voldy.myblog.domain.User;
 import com.voldy.myblog.service.impl.BlogService;
 import com.voldy.myblog.service.impl.CommentService;
 import com.voldy.myblog.utils.ConstraintViolationExceptionHandler;
+import com.voldy.myblog.utils.OwnerJudge;
 import com.voldy.myblog.vo.ResponseVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +37,9 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
+    @Resource
+    private OwnerJudge ownerJudge;
+
     /**
      * 获取评论列表
      * @param blogId
@@ -47,14 +51,15 @@ public class CommentController {
         List<Comment> commentList = blog.getCommentList();
 
         // 判断操作用户是否是评论的所有者
-        String commentOwner = "";
-        if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+        /*String commentOwner = "";*/
+        String commentOwner = ownerJudge.getOwnerUsername();
+       /* if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
             User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (principal !=null) {
                 commentOwner = principal.getUsername();
             }
-        }
+        }*/
 
         ModelAndView mav = new ModelAndView("/userspace/blog :: #mainContainerRepleace");
         mav.addObject("commentOwner", commentOwner);

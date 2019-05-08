@@ -1,5 +1,6 @@
 package com.voldy.myblog.utils;
 
+import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
 import javax.validation.ConstraintViolation;
@@ -15,6 +16,7 @@ import java.util.List;
  * @version 0.0.1
  * @since 2019/5/5
  **/
+@Component
 public class ConstraintViolationExceptionHandler {
     /**
      * 获取批量异常信息

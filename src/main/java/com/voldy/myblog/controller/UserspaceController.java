@@ -6,6 +6,7 @@ import com.voldy.myblog.domain.User;
 import com.voldy.myblog.service.impl.BlogService;
 import com.voldy.myblog.service.impl.UserService;
 import com.voldy.myblog.utils.ConstraintViolationExceptionHandler;
+import com.voldy.myblog.utils.OwnerJudge;
 import com.voldy.myblog.vo.ResponseVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,8 @@ public class UserspaceController {
     private UserDetailsService userDetailsService;
     @Resource
     private BlogService blogService;
+    @Resource
+    private OwnerJudge ownerJudge;
 
     /**
      * 用户主页
@@ -175,14 +178,15 @@ public class UserspaceController {
         blogService.readingIncrease(id);
 
         //判断是否为博客拥有着
-        boolean isBlogOwner = false;
-        if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+        boolean isBlogOwner = ownerJudge.isOwner(username);
+        principal = ownerJudge.getOwnerUser();
+        /*if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
             principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (principal != null && username.equals(principal.getUsername())) {
                 isBlogOwner = true;
             }
-        }
+        }*/
 
         // 判断操作用户的点赞情况
         List<Vote> votes = blog.getVoteList();

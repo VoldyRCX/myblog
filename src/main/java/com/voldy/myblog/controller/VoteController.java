@@ -4,6 +4,7 @@ import com.voldy.myblog.domain.User;
 import com.voldy.myblog.service.impl.BlogService;
 import com.voldy.myblog.service.impl.VoteService;
 import com.voldy.myblog.utils.ConstraintViolationExceptionHandler;
+import com.voldy.myblog.utils.OwnerJudge;
 import com.voldy.myblog.vo.ResponseVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,6 +35,8 @@ public class VoteController {
     @Resource
     private VoteService voteService;
 
+    @Resource
+    private OwnerJudge ownerJudge;
     /**
      * 发表点赞
      * @param blogId
@@ -66,15 +69,15 @@ public class VoteController {
         User user = voteService.getVoteById(id).getUser();
 
         // 判断操作用户是否是点赞的所有者
-        //TODO utils处理
-        if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+        isOwner = ownerJudge.isOwner(user);
+        /*if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
             User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (principal !=null && user.getUsername().equals(principal.getUsername())) {
                 isOwner = true;
             }
         }
-
+*/
         if (!isOwner) {
             return ResponseEntity.ok().body(new ResponseVO(false, "没有操作权限"));
         }

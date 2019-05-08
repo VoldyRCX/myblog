@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/images/**", "/index","/comments/**" ).permitAll()
                 .antMatchers("/error/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN") // 需要相应的角色才能访问
+                //.antMatchers("/admin/**").hasRole("ADMIN") // 需要相应的角色才能访问
 
                 .and()
                 .formLogin()   //基于 Form 表单登录验证
