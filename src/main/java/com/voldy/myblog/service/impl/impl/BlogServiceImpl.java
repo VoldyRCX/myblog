@@ -1,9 +1,6 @@
 package com.voldy.myblog.service.impl.impl;
 
-import com.voldy.myblog.domain.Blog;
-import com.voldy.myblog.domain.Comment;
-import com.voldy.myblog.domain.Vote;
-import com.voldy.myblog.domain.User;
+import com.voldy.myblog.domain.*;
 import com.voldy.myblog.repository.BlogRepository;
 import com.voldy.myblog.service.impl.BlogService;
 import com.voldy.myblog.service.impl.UserService;
@@ -24,9 +21,6 @@ import javax.transaction.Transactional;
  **/
 @Service
 public class BlogServiceImpl implements BlogService {
-
-    @Resource
-    private UserService userService;
 
     @Resource
     private BlogRepository blogRepository;
@@ -119,6 +113,11 @@ public class BlogServiceImpl implements BlogService {
             originalBlog.removeVote(voteId);
         }
         blogRepository.save(originalBlog);
+    }
+
+    @Override
+    public Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable) {
+        return blogRepository.findByCatalog(catalog, pageable);
     }
 
 

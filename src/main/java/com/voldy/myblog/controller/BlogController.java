@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/blog")
 public class BlogController {
     @GetMapping
-    public String listBlog(@RequestParam(value="order",required=false,defaultValue="new") String order,
-                            @RequestParam(value="keyword",required=false,defaultValue = "") String keyword) {
-        System.out.println("order:" +order + ";keyword:" +keyword);
-        return "redirect:/index?order="+order+"&keyword="+keyword;
+    public String listBlogs(@RequestParam(value="order",required=false,defaultValue="new") String order,
+                            @RequestParam(value="tag",required=false) Long tag) {
+        System.out.print("order:" +order + ";tag:" +tag );
+        return "redirect:/index?order="+order+"&tag="+tag;
     }
 }

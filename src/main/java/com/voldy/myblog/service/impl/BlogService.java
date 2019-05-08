@@ -1,6 +1,7 @@
 package com.voldy.myblog.service.impl;
 
 import com.voldy.myblog.domain.Blog;
+import com.voldy.myblog.domain.Catalog;
 import com.voldy.myblog.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,7 +59,7 @@ public interface BlogService {
      */
     Page<Blog> listBlogsByTitleLikeAndSort(User user, String title, Pageable pageable);
 
-    /*Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable);*/
+
 
     /**
      * 增加阅读量
@@ -82,11 +83,24 @@ public interface BlogService {
     void removeComment(Long blogId, Long commentId);
 
     /**
-     *
+     * 获得点赞
      * @param blogId
      * @return
      */
     Blog createVote(Long blogId);
 
+    /**
+     * 移除点赞
+     * @param blogId
+     * @param likeId
+     */
     void removeVote(Long blogId, Long likeId);
+
+    /**
+     * 根据分类查询所有匹配的博客
+     * @param catalog
+     * @param pageable
+     * @return
+     */
+    Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable);
 }

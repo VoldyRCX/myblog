@@ -1,6 +1,7 @@
 package com.voldy.myblog.repository;
 
 import com.voldy.myblog.domain.Blog;
+import com.voldy.myblog.domain.Catalog;
 import com.voldy.myblog.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +45,13 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
      * @param pageable
      * @return
      */
-    /*Page<Blog> findByTitleLikeAndUserOrTagsLikeAndUserOrderByCreateTimeDesc(String title, User user, String tags, User user2, Pageable pageable);
+  /*  Page<Blog> findByTitleLikeAndUserOrTagsLikeAndUserOrderByCreateTimeDesc(String title, User user, String tags, User user2, Pageable pageable);
 */
-    /*Page<Blog> findByCatalog(Catalog catalog, Pageable pageable);*/
+    /**
+     * 根据分类查询
+     * @param catalog
+     * @param pageable
+     * @return
+     */
+    Page<Blog> findByCatalog(Catalog catalog, Pageable pageable);
 }
