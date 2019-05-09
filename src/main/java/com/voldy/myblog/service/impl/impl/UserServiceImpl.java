@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -69,6 +70,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> listUsersByUserNames(Collection<String> userNames) {
+        return userRepository.findByUsernameIn(userNames);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails user = userRepository.findByUsername(username);
         //解决remember me 空指针异常
@@ -77,5 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return user;
     }
+
+
 
 }

@@ -36,7 +36,7 @@
         <i class="fa fa-eye" aria-hidden="true" >[[${blog.readings}]]</i>
         <i class="fa fa-heart-o" aria-hidden="true">[[${blog.votes}]]</i>
         <i class="fa fa-comment-o" aria-hidden="true">[[${blog.comments}]]</i>
-        <a href="/u/minato" th:if="${isBlogOwner}"
+        <a href="/u/renqiangii" th:if="${isBlogOwner}"
            th:href="'/u/' + ${blog.user.username}+ '/blogs/edit/'+ ${blog.id}"
            class="btn btn-primary float-right">编辑</a>
         <a href="#" th:if="${isBlogOwner}"
@@ -119,7 +119,7 @@
 
 
             <!-- 相关博客 -->
-            <div class="card my-4">
+            <!--<div class="card my-4">
                 <h5 class="card-header"><i class="fa fa-connectdevelop" aria-hidden="true"></i> 相关博客</h5>
                 <div class="list-group">
                     <ul class="list-group">
@@ -142,7 +142,7 @@
                     </ul>
                 </div>
 
-            </div>
+            </div>-->
 
         </div>
     </div>

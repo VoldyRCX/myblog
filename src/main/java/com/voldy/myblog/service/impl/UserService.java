@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -55,4 +56,11 @@ public interface UserService extends UserDetailsService {
      * @return
      */
     Page<User> listUsersByNicknameLike(String nickname, Pageable pageable);
+
+    /**
+     * 根据用户名返回用户列表
+     * @param userNames
+     * @return
+     */
+    public List<User> listUsersByUserNames(Collection<String> userNames);
 }

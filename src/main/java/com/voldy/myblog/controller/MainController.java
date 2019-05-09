@@ -37,7 +37,7 @@ public class MainController {
 
     @GetMapping("/index")
     public String index(){
-        return "index";
+        return "redirect:/blogs";
     }
 
     /**
