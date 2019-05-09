@@ -35,7 +35,7 @@
 </style>
 
 <body>
-
+<!-- TODO 添加验证码 添加确认密码 -->
 <div class="container blog-content-container">
 
     <form th:action="@{/register}"  method="post">
@@ -51,8 +51,8 @@
             <input type="email" class="form-control" id="email" name="email" maxlength="50" placeholder="请输入邮箱">
         </div>
         <div class="form-group col-md-5">
-            <label for="name" class="col-form-label">姓名</label>
-            <input type="text" class="form-control" id="name" name="name" maxlength="20" placeholder="请输入姓名，至少2个字符，至多20个" >
+            <label for="nickname" class="col-form-label">昵称</label>
+            <input type="text" class="form-control" id="nickname" name="nickname" maxlength="20" placeholder="请输入姓名，至少2个字符，至多20个" >
         </div>
         <div class="form-group col-md-5">
             <label for="password" class="col-form-label">密码</label>
