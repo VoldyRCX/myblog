@@ -54,7 +54,7 @@ public class CommentController {
         String commentOwner = ownerJudge.getOwnerUsername();
 
 
-        ModelAndView mav = new ModelAndView("/userspace/blog :: #mainContainerRepleace");
+        ModelAndView mav = new ModelAndView("userspace/blog :: #mainContainerRepleace");
         mav.addObject("commentOwner", commentOwner);
         mav.addObject("commentList", commentList);
 

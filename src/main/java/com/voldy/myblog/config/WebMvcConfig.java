@@ -22,17 +22,20 @@ import javax.annotation.Resource;
 public class WebMvcConfig implements WebMvcConfigurer {
     //静态文件目录
     //非常重要！！！踩坑
+    //主页缓存！！！
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("classpath:/static/")
+                .setCachePeriod(2592000).resourceChain(true);
     }
 
-    /*@Override
+/* @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/user/*","/article/*");
         //.excludePathPatterns("/**");
 
     }*/
+
 }

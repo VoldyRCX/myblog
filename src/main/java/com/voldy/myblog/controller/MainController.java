@@ -55,7 +55,7 @@ public class MainController {
      */
     @GetMapping("login-error")
     public ModelAndView loginError(){
-        ModelAndView mav = new ModelAndView("/login");
+        ModelAndView mav = new ModelAndView("login");
         mav.addObject("loginError", true);
         mav.addObject("errorMsg", "登陆失败，账号或者密码错误！");
         return mav;

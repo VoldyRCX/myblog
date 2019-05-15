@@ -63,7 +63,7 @@ public class BlogController {
             list = page.getContent();	// 当前所在页面数据列表
         }
 
-        ModelAndView mav = new ModelAndView(async ? "/index :: #mainContainerRepleace" : "/index");
+        ModelAndView mav = new ModelAndView(async ? "/index :: #mainContainerRepleace" : "index");
 
 
         mav.addObject("order", order);
