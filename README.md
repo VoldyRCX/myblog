@@ -1,4 +1,4 @@
-# MyBlog 个人博客#
+# MyBlog 个人博客
 
 SSH框架的个人博客项目 Version ：0.1.2
 
